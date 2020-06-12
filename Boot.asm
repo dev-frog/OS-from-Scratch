@@ -15,29 +15,24 @@
 
 
 	;; tele type output
-	mov ah,0x0e
 	mov bx,testString
 
-	call print_string
+	call printf
 	mov bx,string2
-	call print_string
-	jmp end_pgm
+	call printf
 
-print_string:
-	mov al,[bx]
-	cmp al,0
-	je end_print
-	int 0x10
-	add bx,1
-	jmp print_string
+	mov bx,0x12AB
+	call printh
 
-end_print:
-	ret 
+	;; End program
+	jmp $
+
+	include 'include/printf.asm'
+	include 'include/printh.asm'
+
 
 testString:	db 'Hello' ,0xa ,0xd,0
-string2:	db 'World',0xa,0xd,0
+string2:	db 'Hex: ',0
 
-end_pgm:
-	jmp $
 	times 510-($-$$) db 0
 	dw 0xaa55
